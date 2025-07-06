@@ -51,7 +51,7 @@ print(f"R² Score: {r2:.2f}")
 
 # Save model and scaler
 yield_path = os.path.join(model_dir, 'yield_model.pkl')
-yield_scaler_path = os.path.join(model_dir, 'yield_scaler.pkl')
+yield_scaler = os.path.join(model_dir, 'yield_scaler.pkl')
 
 joblib.dump(model, yield_path)
-joblib.dump(scaler, yield_scaler_path)
+joblib.dump(scaler, yield_scaler)

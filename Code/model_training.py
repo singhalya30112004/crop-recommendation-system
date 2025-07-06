@@ -20,7 +20,7 @@ sns.set(style="whitegrid")
 # Load and Split Dataset
 base_dir = os.path.dirname(__file__)
 dataset_path = os.path.join(base_dir, '../Dataset/crop_recommendation.csv')
-output_dir = os.path.join(base_dir, '../Outputs')
+output_dir = os.path.join(base_dir, '../Visualisations')
 os.makedirs(output_dir, exist_ok=True)
 
 df = pd.read_csv(dataset_path)
