@@ -24,3 +24,20 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
+
+
+# Train and Evaluate Multiple Models
+models = {
+    'Random Forest': RandomForestClassifier(),
+    'K-Nearest Neighbors': KNeighborsClassifier(),
+    'Support Vector Machine': SVC()
+}
+
+for name, model in models.items():
+    print(f"\nTraining: {name}")
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+
+    print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+    print("Classification Report:")
+    print(classification_report(y_test, y_pred))
