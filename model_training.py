@@ -41,3 +41,21 @@ for name, model in models.items():
     print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
     print("Classification Report:")
     print(classification_report(y_test, y_pred))
+
+
+# Confusion Matrix for Best Model
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+best_model = RandomForestClassifier()
+best_model.fit(X_train, y_train)
+y_pred = best_model.predict(X_test)
+
+plt.figure(figsize=(12, 10))
+sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='d', cmap='Greens')
+plt.title("Confusion Matrix - Random Forest")
+plt.ylabel("Actual")
+plt.xlabel("Predicted")
+plt.tight_layout()
+plt.savefig("../notebooks/confusion_matrix_rf.png")
+plt.close()
