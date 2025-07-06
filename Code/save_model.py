@@ -7,7 +7,12 @@ import os
 
 
 # Load data
-df = pd.read_csv('crop_recommendation.csv')
+base_dir = os.path.dirname(__file__)
+dataset_path = os.path.join(base_dir, '../Dataset/crop_recommendation.csv')
+model_dir = os.path.join(base_dir, '../Models')
+os.makedirs(model_dir, exist_ok=True)
+
+df = pd.read_csv(dataset_path)
 X = df.drop('label', axis=1)
 y = df['label']
 
@@ -27,7 +32,10 @@ model.fit(X_train_scaled, y_train)
 
 
 # Save model and scaler
-joblib.dump(model, 'crop_model.pkl')
-joblib.dump(scaler, 'scaler.pkl')
+model_path = os.path.join(model_dir, 'crop_model.pkl')
+scaler_path = os.path.join(model_dir, 'scaler.pkl')
+
+joblib.dump(model, model_path)
+joblib.dump(scaler, scaler_path)
 
 print("Model and scaler saved successfully.")

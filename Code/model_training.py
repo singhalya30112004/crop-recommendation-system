@@ -1,5 +1,9 @@
 import pandas as pd
 import numpy as np
+import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
@@ -10,9 +14,18 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
+sns.set(style="whitegrid")
+
 
 # Load and Split Dataset
-df = pd.read_csv('crop_recommendation.csv')
+base_dir = os.path.dirname(__file__)
+dataset_path = os.path.join(base_dir, '../Dataset/crop_recommendation.csv')
+output_dir = os.path.join(base_dir, '../Outputs')
+os.makedirs(output_dir, exist_ok=True)
+
+df = pd.read_csv(dataset_path)
+print("Dataset loaded successfully.")
+print(df.head())
 
 X = df.drop('label', axis=1)
 y = df['label']
@@ -38,15 +51,13 @@ for name, model in models.items():
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
 
-    print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Accuracy: {accuracy:.4f}")
     print("Classification Report:")
     print(classification_report(y_test, y_pred))
 
 
 # Confusion Matrix for Best Model
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 best_model = RandomForestClassifier()
 best_model.fit(X_train, y_train)
 y_pred = best_model.predict(X_test)
@@ -57,5 +68,7 @@ plt.title("Confusion Matrix - Random Forest")
 plt.ylabel("Actual")
 plt.xlabel("Predicted")
 plt.tight_layout()
-plt.savefig("confusion_matrix_rf.png")
+
+conf_matrix_path = os.path.join(output_dir, 'confusion_matrix_rf.png')
+plt.savefig(conf_matrix_path)
 plt.close()
