@@ -56,3 +56,10 @@ for feature in features:
     plt.tight_layout()
     plt.savefig(f'{feature}_vs_crop.png')
     plt.close()
+
+
+# Pair Plot
+sns.pairplot(df, hue='label', corner=True)
+plt.tight_layout()
+plt.savefig('pairplot.png')
+plt.close()
