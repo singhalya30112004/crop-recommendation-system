@@ -2,10 +2,16 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
+import sys
 
 
 # Load model and scaler
-base_dir = os.path.dirname(__file__)
+base_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(base_dir, '..'))
+sys.path.append(parent_dir)
+
+from Utilities.weather_api import get_weather
+
 model_path = os.path.join(base_dir, '../Models/crop_model.pkl')
 scaler_path = os.path.join(base_dir, '../Models/scaler.pkl')
 
@@ -35,7 +41,8 @@ with st.form("input_form"):
 
 # Prediction
 if submitted:
-    user_input = pd.DataFrame([[N, P, K, temperature, humidity, ph, rainfall]], columns=['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall'])
+    user_input = pd.DataFrame([[N, P, K, temperature, humidity, ph, rainfall]],
+                              columns=['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall'])
 
     user_input_scaled = scaler.transform(user_input)
     prediction = model.predict(user_input_scaled)[0]
@@ -48,6 +55,5 @@ lat = st.number_input("Latitude", value=26.9124, format="%.4f")
 lon = st.number_input("Longitude", value=75.7873, format="%.4f")
 
 if st.button("Auto-fill from Weather API"):
-    from utils.weather_api import get_weather
     temperature, humidity, rainfall = get_weather(lat, lon)
     st.success(f"Weather fetched! Temp: {temperature}°C, Humidity: {humidity}%, Rainfall: {rainfall}mm")
