@@ -43,3 +43,16 @@ plt.title('Feature Correlation Heatmap')
 plt.tight_layout()
 plt.savefig('correlation_heatmap.png')
 plt.close()
+
+
+# Box Plot for Each Feature vs. Crop
+features = ['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall']
+
+for feature in features:
+    plt.figure(figsize=(14, 6))
+    sns.boxplot(x='label', y=feature, data=df)
+    plt.xticks(rotation=90)
+    plt.title(f'{feature} vs Crop')
+    plt.tight_layout()
+    plt.savefig(f'{feature}_vs_crop.png')
+    plt.close()
