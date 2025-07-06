@@ -1,13 +1,13 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 import joblib
 import os
 
 
 # Load data
-base_dir = os.path.dirname(__file__)
+base_dir = os.path.dirname(os.path.abspath(__file__))
 dataset_path = os.path.join(base_dir, '../Dataset/crop_recommendation.csv')
 model_dir = os.path.join(base_dir, '../Models')
 os.makedirs(model_dir, exist_ok=True)
@@ -15,6 +15,9 @@ os.makedirs(model_dir, exist_ok=True)
 df = pd.read_csv(dataset_path)
 X = df.drop('label', axis=1)
 y = df['label']
+
+le = LabelEncoder()
+y_encoded = le.fit_transform(y)
 
 
 # Train-test split
