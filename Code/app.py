@@ -18,6 +18,12 @@ scaler_path = os.path.join(base_dir, '../Models/scaler.pkl')
 model = joblib.load(model_path)
 scaler = joblib.load(scaler_path)
 
+yield_model_path = os.path.join(base_dir, '../Models/yield_model.pkl')
+yield_scaler_path = os.path.join(base_dir, '../Models/yield_scaler.pkl')
+
+yield_model = joblib.load(yield_model_path)
+yield_scaler = joblib.load(yield_scaler_path)
+
 
 # Page config
 st.set_page_config(page_title="Crop Recommendation System", layout="centered")
@@ -41,13 +47,18 @@ with st.form("input_form"):
 
 # Prediction
 if submitted:
-    user_input = pd.DataFrame([[N, P, K, temperature, humidity, ph, rainfall]],
-                              columns=['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall'])
+    user_input = pd.DataFrame([[N, P, K, temperature, humidity, ph, rainfall]], columns=['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall'])
 
+    # Crop prediction
     user_input_scaled = scaler.transform(user_input)
-    prediction = model.predict(user_input_scaled)[0]
+    crop_prediction = model.predict(user_input_scaled)[0]
 
-    st.success(f"**Recommended Crop:** {prediction.capitalize()}")
+    # Yield prediction
+    yield_input_scaled = yield_scaler.transform(user_input)
+    yield_prediction = yield_model.predict(yield_input_scaled)[0]
+
+    st.success(f"**Recommended Crop:** {crop_prediction.capitalize()}")
+    st.info(f"**Expected Yield:** {yield_prediction:.0f} kg/ha")
 
 
 # Ask for lat/lon
