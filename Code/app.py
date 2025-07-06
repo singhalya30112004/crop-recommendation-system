@@ -41,3 +41,13 @@ if submitted:
     prediction = model.predict(user_input_scaled)[0]
 
     st.success(f"**Recommended Crop:** {prediction.capitalize()}")
+
+
+# Ask for lat/lon
+lat = st.number_input("Latitude", value=26.9124, format="%.4f")
+lon = st.number_input("Longitude", value=75.7873, format="%.4f")
+
+if st.button("Auto-fill from Weather API"):
+    from utils.weather_api import get_weather
+    temperature, humidity, rainfall = get_weather(lat, lon)
+    st.success(f"Weather fetched! Temp: {temperature}°C, Humidity: {humidity}%, Rainfall: {rainfall}mm")
