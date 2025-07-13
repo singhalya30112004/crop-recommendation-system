@@ -82,3 +82,13 @@ pip install -r requirements.txt
 cd Code
 streamlit run app.py
 ```
+
+## Author
+
+Alya Singh  
+[LinkedIn](https://www.linkedin.com/in/alya-singh/)  
+[GitHub: @singhalya30112004](https://github.com/singhalya30112004)
+
+
+## License
+MIT License – feel free to use, share, and modify!
